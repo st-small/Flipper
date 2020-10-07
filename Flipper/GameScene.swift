@@ -8,81 +8,128 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+public final class GameScene: SKScene {
     
-    private var label : SKLabelNode?
-    private var spinnyNode : SKShapeNode?
+    private var board: Board!
+    private var rows = [[Stone]]()
     
-    override func didMove(to view: SKView) {
+    private var strategist: GKMonteCarloStrategist!
+    
+    public override func didMove(to view: SKView) {
+        let background = SKSpriteNode(imageNamed: "background")
+        background.blendMode = .replace
+        background.zPosition = 1
+        addChild(background)
+
+        let gameBoard = SKSpriteNode(imageNamed: "board")
+        gameBoard.name = "board"
+        gameBoard.zPosition = 2
+        addChild(gameBoard)
         
-        // Get label node from scene and store it for use later
-        self.label = self.childNode(withName: "//helloLabel") as? SKLabelNode
-        if let label = self.label {
-            label.alpha = 0.0
-            label.run(SKAction.fadeIn(withDuration: 2.0))
+        board = Board()
+
+        let offsetX = -280
+        let offsetY = -281
+        let stoneSize = 80
+
+        for row in 0 ..< Board.size {
+            var colArray = [Stone]()
+
+            for col in 0 ..< Board.size {
+                let stone = Stone(color: UIColor.clear, size: CGSize(width: stoneSize, height: stoneSize))
+                stone.position = CGPoint(x: offsetX + (col * stoneSize), y: offsetY + (row * stoneSize))
+
+                stone.row = row
+                stone.col = col
+
+                gameBoard.addChild(stone)
+                colArray.append(stone)
+            }
+
+            board.rows.append([StoneColor](repeating: .empty, count: Board.size))
+            rows.append(colArray)
         }
-        
-        // Create shape node to use during mouse interaction
-        let w = (self.size.width + self.size.height) * 0.05
-        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        
-        if let spinnyNode = self.spinnyNode {
-            spinnyNode.lineWidth = 2.5
-            
-            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-                                              SKAction.fadeOut(withDuration: 0.5),
-                                              SKAction.removeFromParent()]))
+
+        rows[4][3].setPlayer(.white)
+        rows[4][4].setPlayer(.black)
+        rows[3][4].setPlayer(.white)
+        rows[3][3].setPlayer(.black)
+
+        board.rows[4][3] = .white
+        board.rows[4][4] = .black
+        board.rows[3][4] = .white
+        board.rows[3][3] = .black
+
+        strategist = GKMonteCarloStrategist()
+        strategist.budget = 100
+        strategist.explorationParameter = 1
+        strategist.randomSource = GKRandomSource.sharedRandom()
+        strategist.gameModel = board
+    }
+    
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else { return }
+        guard let gameBoard = childNode(withName: "board") else { return }
+
+        let location = touch.location(in: gameBoard)
+
+        // find the stone that was tapped
+        let nodesAtPoint = nodes(at: location)
+        let tappedStones = nodesAtPoint.filter { $0 is Stone }
+        guard tappedStones.count > 0 else { return }
+
+        let tappedStone = tappedStones[0] as! Stone
+
+        if board.canMoveIn(row: tappedStone.row, col: tappedStone.col) {
+            makeMove(row: tappedStone.row, col: tappedStone.col)
+
+            if board.currentPlayer.stoneColor == .white {
+                makeAIMove()
+            }
+        } else {
+            print("Move is illegal")
         }
     }
     
-    
-    func touchDown(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.green
-            self.addChild(n)
+    private func makeMove(row: Int, col: Int) {
+        // find the list of captured stones
+        let captured = board.makeMove(player: board.currentPlayer, row: row, col: col)
+
+        for move in captured {
+            // pull out the sprite for each captured stone
+            let stone = rows[move.row][move.col]
+
+            // update who owns it
+            stone.setPlayer(board.currentPlayer.stoneColor)
+
+            // make it 120% of its normal size
+            stone.xScale = 1.2
+            stone.yScale = 1.2
+
+            // animate it down to 100%
+            stone.run(SKAction.scale(to: 1, duration: 0.5))
         }
+
+        // change players
+        board.currentPlayer = board.currentPlayer.opponent
     }
     
-    func touchMoved(toPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.blue
-            self.addChild(n)
+    private func makeAIMove() {
+        DispatchQueue.global(qos: .userInitiated).async { [unowned self] in
+            let strategistTime = CFAbsoluteTimeGetCurrent()
+            guard let move = self.strategist.bestMoveForActivePlayer() as? Move else { return }
+            let delta = CFAbsoluteTimeGetCurrent() - strategistTime
+
+            DispatchQueue.main.async { [unowned self] in
+                self.rows[move.row][move.col].setPlayer(.choice)
+            }
+
+            let aiTimeCeiling = 3.0
+            let delay = min(aiTimeCeiling - delta, aiTimeCeiling)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [unowned self] in
+                self.makeMove(row: move.row, col: move.col)
+            }
         }
-    }
-    
-    func touchUp(atPoint pos : CGPoint) {
-        if let n = self.spinnyNode?.copy() as! SKShapeNode? {
-            n.position = pos
-            n.strokeColor = SKColor.red
-            self.addChild(n)
-        }
-    }
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
-        
-        for t in touches { self.touchDown(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches { self.touchUp(atPoint: t.location(in: self)) }
-    }
-    
-    
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
     }
 }

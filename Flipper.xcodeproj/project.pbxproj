@@ -9,23 +9,31 @@
 /* Begin PBXBuildFile section */
 		52A4753F252D815A008103A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A4753E252D815A008103A7 /* AppDelegate.swift */; };
 		52A47541252D815A008103A7 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 52A47540252D815A008103A7 /* GameScene.sks */; };
-		52A47543252D815A008103A7 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 52A47542252D815A008103A7 /* Actions.sks */; };
 		52A47545252D815A008103A7 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A47544252D815A008103A7 /* GameScene.swift */; };
 		52A47547252D815A008103A7 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A47546252D815A008103A7 /* GameViewController.swift */; };
 		52A4754A252D815A008103A7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52A47548252D815A008103A7 /* Main.storyboard */; };
 		52A4754C252D815C008103A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52A4754B252D815C008103A7 /* Assets.xcassets */; };
+		52A47558252D8808008103A7 /* StoneColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A47557252D8808008103A7 /* StoneColor.swift */; };
+		52A4755B252D885B008103A7 /* Stone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A4755A252D885B008103A7 /* Stone.swift */; };
+		52A4755E252D8B9E008103A7 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A4755D252D8B9E008103A7 /* Board.swift */; };
+		52A47561252D8CB6008103A7 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A47560252D8CB6008103A7 /* Player.swift */; };
+		52A47564252D8D14008103A7 /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A47563252D8D14008103A7 /* Move.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		52A4753B252D815A008103A7 /* Flipper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flipper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52A4753E252D815A008103A7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52A47540252D815A008103A7 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		52A47542252D815A008103A7 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		52A47544252D815A008103A7 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		52A47546252D815A008103A7 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		52A47549252D815A008103A7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52A4754B252D815C008103A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52A4754D252D815C008103A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52A47557252D8808008103A7 /* StoneColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoneColor.swift; sourceTree = "<group>"; };
+		52A4755A252D885B008103A7 /* Stone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stone.swift; sourceTree = "<group>"; };
+		52A4755D252D8B9E008103A7 /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		52A47560252D8CB6008103A7 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		52A47563252D8D14008103A7 /* Move.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,9 +68,13 @@
 			children = (
 				52A4753E252D815A008103A7 /* AppDelegate.swift */,
 				52A47540252D815A008103A7 /* GameScene.sks */,
-				52A47542252D815A008103A7 /* Actions.sks */,
 				52A47544252D815A008103A7 /* GameScene.swift */,
 				52A47546252D815A008103A7 /* GameViewController.swift */,
+				52A47557252D8808008103A7 /* StoneColor.swift */,
+				52A4755A252D885B008103A7 /* Stone.swift */,
+				52A4755D252D8B9E008103A7 /* Board.swift */,
+				52A47560252D8CB6008103A7 /* Player.swift */,
+				52A47563252D8D14008103A7 /* Move.swift */,
 				52A47548252D815A008103A7 /* Main.storyboard */,
 				52A4754B252D815C008103A7 /* Assets.xcassets */,
 				52A4754D252D815C008103A7 /* Info.plist */,
@@ -130,7 +142,6 @@
 				52A4754A252D815A008103A7 /* Main.storyboard in Resources */,
 				52A47541252D815A008103A7 /* GameScene.sks in Resources */,
 				52A4754C252D815C008103A7 /* Assets.xcassets in Resources */,
-				52A47543252D815A008103A7 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -141,9 +152,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52A4755B252D885B008103A7 /* Stone.swift in Sources */,
 				52A47545252D815A008103A7 /* GameScene.swift in Sources */,
+				52A4755E252D8B9E008103A7 /* Board.swift in Sources */,
 				52A47547252D815A008103A7 /* GameViewController.swift in Sources */,
+				52A47564252D8D14008103A7 /* Move.swift in Sources */,
+				52A47561252D8CB6008103A7 /* Player.swift in Sources */,
 				52A4753F252D815A008103A7 /* AppDelegate.swift in Sources */,
+				52A47558252D8808008103A7 /* StoneColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +301,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3PTYV272Z4;
 				INFOPLIST_FILE = Flipper/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -292,7 +309,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ua.com.kr.ssh.Flipper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -304,6 +321,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 3PTYV272Z4;
 				INFOPLIST_FILE = Flipper/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -311,7 +329,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ua.com.kr.ssh.Flipper;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};
